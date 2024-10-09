@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -28,6 +30,9 @@ public class Order implements Serializable {
     @JoinColumn(name = "customer_id")
     private User customer;
 
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
+
     public Order(){}
 
     public Order(Long id, Instant date, User customer, OrderStatus orderStatus) {
@@ -36,19 +41,6 @@ public class Order implements Serializable {
         this.date = date;
         this.customer = customer;
         setOrderStatus(orderStatus);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 
     public Long getId() {
@@ -77,12 +69,28 @@ public class Order implements Serializable {
         }
     }
 
-
     public User getCustomer() {
         return customer;
     }
 
     public void setCustomer(User customer) {
         this.customer = customer;
+    }
+
+    public Set<OrderItem> getItems(){
+        return items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

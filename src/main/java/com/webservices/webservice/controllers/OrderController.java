@@ -3,6 +3,7 @@ package com.webservices.webservice.controllers;
 import com.webservices.webservice.entities.Order;
 import com.webservices.webservice.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders(){
         List<Order> ordersList = orderService.getAllOrders();
-        return ResponseEntity.ok().body(ordersList);
+        return ResponseEntity.status(HttpStatus.OK).body(ordersList);
     }
 
     @GetMapping(value = "/{id}")

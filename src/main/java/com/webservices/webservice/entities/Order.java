@@ -1,7 +1,7 @@
 package com.webservices.webservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.webservices.webservice.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -19,6 +19,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer orderStatus;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant date;
 
@@ -28,11 +30,12 @@ public class Order implements Serializable {
 
     public Order(){}
 
-    public Order(Long id, Instant date, User customer) {
+    public Order(Long id, Instant date, User customer, OrderStatus orderStatus) {
         super();
         this.id = id;
         this.date = date;
         this.customer = customer;
+        setOrderStatus(orderStatus);
     }
 
     @Override
@@ -63,6 +66,17 @@ public class Order implements Serializable {
     public void setDate(Instant date) {
         this.date = date;
     }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if(orderStatus != null){
+            this.orderStatus = orderStatus.getCode();
+        }
+    }
+
 
     public User getCustomer() {
         return customer;

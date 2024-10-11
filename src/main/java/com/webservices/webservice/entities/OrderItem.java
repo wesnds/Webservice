@@ -67,7 +67,6 @@ public class OrderItem implements Serializable {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +80,5 @@ public class OrderItem implements Serializable {
         return Objects.hashCode(id);
     }
 
-    //    public Double subTotal(){}
 
 }

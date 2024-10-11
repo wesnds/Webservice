@@ -1,5 +1,6 @@
 package com.webservices.webservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -32,9 +33,13 @@ public class Product implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product(){}
 
     public Product(Long id, String name, String description, Double price, String imgUrl) {
+        super();
         this.id = id;
         this.name = name;
         this.description = description;
@@ -84,6 +89,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        Set<Order> orders = new HashSet<>();
+        for(OrderItem orderItem : items){
+            orders.add(orderItem.getOrder());
+        }
+        return orders;
     }
 
     @Override

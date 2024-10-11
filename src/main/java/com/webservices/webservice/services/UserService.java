@@ -22,4 +22,25 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         return user.get();
     }
+
+    public User registerUser(User newUser){
+        return userRepository.save(newUser);
+    }
+
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
+    }
+
+     public User updateUser(Long id, User uptUser){
+        User user = userRepository.getReferenceById(id);
+        updatedData(user, uptUser);
+        return userRepository.save(user);
+     }
+
+     private void updatedData(User user, User uptUser){
+        user.setName(uptUser.getName());
+        user.setEmail(uptUser.getEmail());
+        user.setPhone(uptUser.getPhone());
+
+     }
 }
